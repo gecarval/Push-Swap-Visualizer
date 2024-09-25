@@ -6,7 +6,7 @@
 /*   By: anonymous <anonymous@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 17:38:51 by gecarval          #+#    #+#             */
-/*   Updated: 2024/09/25 20:00:05 by gecarval         ###   ########.fr       */
+/*   Updated: 2024/09/25 21:10:30 by gecarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,58 @@ int	mouse_click(int key, int x, int y, t_data *data)
 	return (0);
 }
 
+void	draw_button(int x, int y, int w, int h, t_data *data, int color)
+{
+	t_delta	dx;
+	t_delta	dy;
+
+	dx = defdel(x, x + w);
+	while (h > 0)
+	{
+		dy = defdel(y + h, y + h);
+		draw_line(dx, dy, data, color);
+		h--;
+	}
+}
+
+/*	mlx_string_put(data->ini, data->win,
+		(data->winx / 2) - 75, 15, 120000, "press 1 to stop");
+	mlx_string_put(data->ini, data->win,
+		(data->winx / 2) - 75, 30, 120000, "press [ to slow down");
+	mlx_string_put(data->ini, data->win,
+		(data->winx / 2) - 75, 45, 120000, "press ] to speed up");
+	mlx_string_put(data->ini, data->win,
+		(data->winx / 2) - 75, 60, 120000, "press v to go back ITS BUGGED");
+	mlx_string_put(data->ini, data->win,
+		(data->winx / 2) - 75, 75, 120000, "press b to pause");
+	mlx_string_put(data->ini, data->win,
+		(data->winx / 2) - 75, 90, 120000, "press n to go on");*/
+
+void	handle_click(t_data *data)
+{
+	if (data->mposx > (data->winx / 2) - 91 && data->mposx < ((data->winx / 2) - 91) + 145)
+	{
+		if (data->mposy > 209 && data->mposy < 209 + 27)
+		{
+			data->anidir = -1;
+		}
+	}
+	if (data->mposx > (data->winx / 2) - 91 && data->mposx < ((data->winx / 2) - 91) + 135)
+	{
+		if (data->mposy > 249 && data->mposy < 249 + 27)
+		{
+			data->anidir = 0;
+		}
+	}
+	if (data->mposx > (data->winx / 2) - 91 && data->mposx < ((data->winx / 2) - 91) + 145)
+	{
+		if (data->mposy > 289 && data->mposy < 289 + 27)
+		{
+			data->anidir = 1;
+		}
+	}
+}
+
 int	mlx_anim(t_data *data)
 {
 	if (data->animation_start == 1)
@@ -39,8 +91,17 @@ int	mlx_anim(t_data *data)
 		render_background(data, 0x000000);
 		visualize_stack(data, &data->stack_a, &data->stack_b);
 		choose_operations(&data->stack_a, &data->stack_b, data, data->anidir);
+		draw_button((data->winx / 2) - 91, 249, 135, 27, data, 0xFFFFFF);
+		draw_button((data->winx / 2) - 90, 250, 133, 25, data, 0x444444);
+		draw_button((data->winx / 2) - 91, 209, 145, 27, data, 0xFFFFFF);
+		draw_button((data->winx / 2) - 90, 210, 143, 25, data, 0x444444);
+		draw_button((data->winx / 2) - 91, 289, 145, 27, data, 0xFFFFFF);
+		draw_button((data->winx / 2) - 90, 290, 143, 25, data, 0x444444);
 		mlx_put_image_to_window(data->ini, data->win, data->img->img_ptr, 0, 0);
 		control_mark(data);
+		mlx_string_put(data->ini, data->win, (data->winx / 2) - 80, 227, 120000, "Click Here to Reverse");
+		mlx_string_put(data->ini, data->win, (data->winx / 2) - 80, 267, 120000, "Click Here to Stop");
+		mlx_string_put(data->ini, data->win, (data->winx / 2) - 80, 307, 120000, "Click Here to Start");
 		if (data->click_hold == 1)
 		{
 			mlx_mouse_get_pos(data->ini, data->win, &data->mposx, &data->mposy);
@@ -48,8 +109,10 @@ int	mlx_anim(t_data *data)
 				data->click_hold = 0;
 			if (data->mposy < 0 || data->mposy > data->winy)
 				data->click_hold = 0;
+			handle_click(data);
 			data->pmposx = data->mposx;
 			data->pmposy = data->mposy;
+			data->click_hold = 0;
 		}
 	}
 	return (0);
