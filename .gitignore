@@ -1,0 +1,5 @@
+*.o
+*.a
+*.swp
+push_swap_visualizer
+Notes.js
