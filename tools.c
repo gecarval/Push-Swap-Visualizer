@@ -6,7 +6,7 @@
 /*   By: anonymous <anonymous@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 17:38:51 by gecarval          #+#    #+#             */
-/*   Updated: 2024/09/26 17:12:48 by gecarval         ###   ########.fr       */
+/*   Updated: 2024/09/26 18:38:24 by gecarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ int	mlx_anim(t_data *data)
 			data->steper = 0;
 			data->animation_start = -1;
 		}
+		usleep(data->timing);
 	}
 	return (0);
 }

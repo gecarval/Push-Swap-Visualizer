@@ -6,7 +6,7 @@
 /*   By: anonymous <anonymous@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 12:18:49 by gecarval          #+#    #+#             */
-/*   Updated: 2024/09/26 17:14:23 by gecarval         ###   ########.fr       */
+/*   Updated: 2024/09/26 18:38:09 by gecarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,5 +128,4 @@ void	visualize_stack(t_data *data, t_list **a, t_list **b)
 		draw_stack(&tmp, data, 1);
 		tmp = tmp->next;
 	}
-	usleep(data->timing);
 }
