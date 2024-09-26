@@ -6,24 +6,26 @@
 /*   By: anonymous <anonymous@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 12:18:49 by gecarval          #+#    #+#             */
-/*   Updated: 2024/09/26 13:00:57 by gecarval         ###   ########.fr       */
+/*   Updated: 2024/09/26 17:14:23 by gecarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./includes/renderer.h"
 
-void	choose_operations(t_list **a, t_list **b, t_data *data, int dir)
+int	choose_operations(t_list **a, t_list **b, t_data *data, int dir)
 {
 	static int i = 0;
 
 	if (data->operations == NULL)
-		return ;
+		return (i);
 	if (dir == -1 && i >= ft_av_size(data->operations))
 		i--;
 	if (dir == 1 && i < 0)
 		i++;
 	if (i > -1 && i < ft_av_size(data->operations))
 	{
+		if (i == 0 && data->steper == 1 && dir == -1)
+			return (i);
 		if (dir == -1 && i > 0)
 			i += dir;
 		if (dir == 1)
@@ -79,6 +81,7 @@ void	choose_operations(t_list **a, t_list **b, t_data *data, int dir)
 		if (dir == 1 && i < ft_av_size(data->operations))
 			i += dir;
 	}
+	return (i);
 }
 
 void	draw_stack(t_list **stack, t_data *data, int dir)

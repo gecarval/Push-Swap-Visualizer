@@ -6,7 +6,7 @@
 /*   By: anonymous <anonymous@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 17:38:51 by gecarval          #+#    #+#             */
-/*   Updated: 2024/09/26 13:00:30 by gecarval         ###   ########.fr       */
+/*   Updated: 2024/09/26 17:12:48 by gecarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,14 @@ void	handle_click(t_data *data)
 
 int	mlx_anim(t_data *data)
 {
+	int	i;
+
 	if (data->animation_start == 1)
 	{
 		render_background(data, 0x000000);
 		visualize_stack(data, &data->stack_a, &data->stack_b);
-		choose_operations(&data->stack_a, &data->stack_b, data, data->anidir);
-//		draw_button(x + 1, y - 1, w + 2, h + 2, data, 0xFFFFFF);
+		i = choose_operations(&data->stack_a, &data->stack_b, data, data->anidir);
+		//draw_button(x + 1, y - 1, w + 2, h + 2, data, 0xFFFFFF);
 		draw_button((data->winx / 2) - 90, 250, 133, 25, data, 0x444444);
 		draw_button((data->winx / 2) - 91, 249, 135, 27, data, 0x444444);
 		draw_button((data->winx / 2) - 90, 210, 143, 25, data, 0x444444);
@@ -80,6 +82,29 @@ int	mlx_anim(t_data *data)
 		control_mark(data);
 		mlx_string_put(data->ini, data->win, (data->winx / 2) - 80, 227, 120000, "Click Here to Reverse");
 		mlx_string_put(data->ini, data->win, (data->winx / 2) - 80, 267, 120000, "Click Here to Start");
+		mlx_string_put(data->ini, data->win,
+				(data->winx / 2) - 75, 120, 120000, "Operation");
+		mlx_string_put(data->ini, data->win,
+				(data->winx / 2) - 75, 135, 120000, "Current->");
+		mlx_string_put(data->ini, data->win,
+				(data->winx / 2) - 75, 150, 120000, "Next->");
+		mlx_string_put(data->ini, data->win,
+				(data->winx / 2) - 75, 165, 120000, "Next->");
+		if (i > -1 && i < ft_av_size(data->operations))
+		{
+			if (i - 1 > -1)
+			{
+				mlx_string_put(data->ini, data->win,
+						(data->winx / 2) - 15, 135, 120000, data->operations[i - 1]);
+			}
+			mlx_string_put(data->ini, data->win,
+					(data->winx / 2) - 15, 150, 120000, data->operations[i]);
+			if (i + 1 < ft_av_size(data->operations))
+			{
+				mlx_string_put(data->ini, data->win,
+						(data->winx / 2) - 15, 165, 120000, data->operations[i + 1]);
+			}
+		}
 		if (data->click_hold == 1)
 		{
 			mlx_mouse_get_pos(data->ini, data->win, &data->mposx, &data->mposy);
@@ -91,6 +116,11 @@ int	mlx_anim(t_data *data)
 			data->pmposx = data->mposx;
 			data->pmposy = data->mposy;
 			data->click_hold = 0;
+		}
+		if (data->steper == 1)
+		{
+			data->steper = 0;
+			data->animation_start = -1;
 		}
 	}
 	return (0);
@@ -106,6 +136,18 @@ int	mlx_cooked(int key, t_data *data)
 		data->anidir = -1;
 	if (key == 'n')
 		data->anidir = 1;
+	if (key == 'a')
+	{
+		data->animation_start = 1;
+		data->steper = 1;
+		data->anidir = -1;
+	}
+	if (key == 'd')
+	{
+		data->animation_start = 1;
+		data->steper = 1;
+		data->anidir = 1;
+	}
 	if (key == '[')
 		data->timing += 10000;
 	if (key == ']')
@@ -152,9 +194,11 @@ void	control_mark(t_data *data)
 	mlx_string_put(data->ini, data->win,
 		(data->winx / 2) - 75, 60, 120000, "press v to go back");
 	mlx_string_put(data->ini, data->win,
-		(data->winx / 2) - 75, 75, 120000, "press b to pause");
+		(data->winx / 2) - 75, 75, 120000, "press n to go on");
 	mlx_string_put(data->ini, data->win,
-		(data->winx / 2) - 75, 90, 120000, "press n to go on");
+		(data->winx / 2) - 75, 90, 120000, "press a back one operation");
+	mlx_string_put(data->ini, data->win,
+		(data->winx / 2) - 75, 105, 120000, "press d to do one operation");
 }
 
 void	water_mark(t_data *data)

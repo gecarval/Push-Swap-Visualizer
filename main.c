@@ -6,7 +6,7 @@
 /*   By: anonymous <anonymous@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 16:57:08 by gecarval          #+#    #+#             */
-/*   Updated: 2024/09/25 19:33:28 by gecarval         ###   ########.fr       */
+/*   Updated: 2024/09/26 16:46:51 by gecarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	main(int ac, char **av)
 	ft_init_program(data);
 	create_visualizer(data, ac, av);
 	data->animation_start = -1;
+	data->steper = 0;
 	data->anidir = 0;
 	data->click_hold = 0;
 	data->timing = 0;

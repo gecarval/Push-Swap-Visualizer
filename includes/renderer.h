@@ -102,6 +102,7 @@ typedef struct s_data
 	t_list		*stack_b;
 	char		**operations;
 	int			anidir;
+	int			steper;
 	int			space;
 	int			max_index;
 	int			winx;
@@ -127,7 +128,7 @@ void	create_visualizer(t_data *data, int ac, char **av);
 void	display_error(t_data *data, char *msg);
 // VISUALIZER
 void	visualize_stack(t_data *data, t_list **a, t_list **b);
-void	choose_operations(t_list **a, t_list **b, t_data *data, int dir);
+int		choose_operations(t_list **a, t_list **b, t_data *data, int dir);
 // HOOKS
 int		mlx_cooked(int	key, t_data *data);
 int		mlx_anim(t_data *data);
