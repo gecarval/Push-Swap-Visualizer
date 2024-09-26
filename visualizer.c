@@ -6,7 +6,7 @@
 /*   By: anonymous <anonymous@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 12:18:49 by gecarval          #+#    #+#             */
-/*   Updated: 2024/09/26 12:21:42 by gecarval         ###   ########.fr       */
+/*   Updated: 2024/09/26 13:00:57 by gecarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ void	choose_operations(t_list **a, t_list **b, t_data *data, int dir)
 {
 	static int i = 0;
 
-	if (dir == 0)
-		return ;
 	if (data->operations == NULL)
 		return ;
 	if (dir == -1 && i >= ft_av_size(data->operations))
@@ -26,7 +24,7 @@ void	choose_operations(t_list **a, t_list **b, t_data *data, int dir)
 		i++;
 	if (i > -1 && i < ft_av_size(data->operations))
 	{
-		if (dir == -1 && i > -1)
+		if (dir == -1 && i > 0)
 			i += dir;
 		if (dir == 1)
 		{

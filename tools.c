@@ -6,7 +6,7 @@
 /*   By: anonymous <anonymous@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 17:38:51 by gecarval          #+#    #+#             */
-/*   Updated: 2024/09/26 12:37:52 by gecarval         ###   ########.fr       */
+/*   Updated: 2024/09/26 13:00:30 by gecarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,6 @@ void	handle_click(t_data *data)
 	{
 		if (data->mposy > 249 && data->mposy < 249 + 27)
 		{
-			data->anidir = 0;
-		}
-	}
-	if (data->mposx > (data->winx / 2) - 91 && data->mposx < ((data->winx / 2) - 91) + 145)
-	{
-		if (data->mposy > 289 && data->mposy < 289 + 27)
-		{
 			data->anidir = 1;
 		}
 	}
@@ -83,13 +76,10 @@ int	mlx_anim(t_data *data)
 		draw_button((data->winx / 2) - 91, 249, 135, 27, data, 0x444444);
 		draw_button((data->winx / 2) - 90, 210, 143, 25, data, 0x444444);
 		draw_button((data->winx / 2) - 91, 209, 145, 27, data, 0x444444);
-		draw_button((data->winx / 2) - 90, 290, 143, 25, data, 0x444444);
-		draw_button((data->winx / 2) - 91, 289, 145, 27, data, 0x444444);
 		mlx_put_image_to_window(data->ini, data->win, data->img->img_ptr, 0, 0);
 		control_mark(data);
 		mlx_string_put(data->ini, data->win, (data->winx / 2) - 80, 227, 120000, "Click Here to Reverse");
-		mlx_string_put(data->ini, data->win, (data->winx / 2) - 80, 267, 120000, "Click Here to Stop");
-		mlx_string_put(data->ini, data->win, (data->winx / 2) - 80, 307, 120000, "Click Here to Start");
+		mlx_string_put(data->ini, data->win, (data->winx / 2) - 80, 267, 120000, "Click Here to Start");
 		if (data->click_hold == 1)
 		{
 			mlx_mouse_get_pos(data->ini, data->win, &data->mposx, &data->mposy);
@@ -110,20 +100,18 @@ int	mlx_cooked(int key, t_data *data)
 {
 	if (key == ESC)
 		exit_data(data, 0);
-	if (key == '1')
+	if (key == ' ')
 		data->animation_start *= -1;
-	if (key == ']')
-		data->timing += 10000;
 	if (key == 'v')
 		data->anidir = -1;
-	if (key == 'b')
-		data->anidir = 0;
 	if (key == 'n')
 		data->anidir = 1;
 	if (key == '[')
+		data->timing += 10000;
+	if (key == ']')
 		if (data->timing > 9999)
 			data->timing -= 10000;
-	if (key == ' ')
+	if (key == '1')
 	{
 		render_background(data, 0x000000);
 		mlx_put_image_to_window(data->ini, data->win, data->img->img_ptr, 0, 0);
@@ -156,7 +144,7 @@ void	pixel_to_img_float(float_t x, float_t y, t_data *data, int color)
 void	control_mark(t_data *data)
 {
 	mlx_string_put(data->ini, data->win,
-		(data->winx / 2) - 75, 15, 120000, "press 1 to stop");
+		(data->winx / 2) - 75, 15, 120000, "press Space to stop");
 	mlx_string_put(data->ini, data->win,
 		(data->winx / 2) - 75, 30, 120000, "press [ to slow down");
 	mlx_string_put(data->ini, data->win,
@@ -174,7 +162,7 @@ void	water_mark(t_data *data)
 	mlx_string_put(data->ini, data->win,
 		15, 15, 120000, "visualizer by gecarval");
 	mlx_string_put(data->ini, data->win,
-		15, 60, 120000, "press 1 to start visualizer");
+		15, 60, 120000, "press Space to start visualizer");
 }
 
 void	render_background(t_data *data, int color)
