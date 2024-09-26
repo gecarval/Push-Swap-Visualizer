@@ -6,7 +6,7 @@
 /*   By: anonymous <anonymous@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 12:18:49 by gecarval          #+#    #+#             */
-/*   Updated: 2024/09/25 19:33:14 by gecarval         ###   ########.fr       */
+/*   Updated: 2024/09/26 12:21:42 by gecarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	choose_operations(t_list **a, t_list **b, t_data *data, int dir)
 		i++;
 	if (i > -1 && i < ft_av_size(data->operations))
 	{
+		if (dir == -1 && i > -1)
+			i += dir;
 		if (dir == 1)
 		{
 			if (ft_strncmp(data->operations[i], "pa", 3) == 0)
@@ -76,10 +78,8 @@ void	choose_operations(t_list **a, t_list **b, t_data *data, int dir)
 			if (ft_strncmp(data->operations[i], "rrr", 4) == 0)
 				ft_rr(a, b);
 		}
-	if (dir == 1 && i < ft_av_size(data->operations))
-		i += dir;
-	if (dir == -1 && i > -1)
-		i += dir;
+		if (dir == 1 && i < ft_av_size(data->operations))
+			i += dir;
 	}
 }
 
