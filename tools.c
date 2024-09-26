@@ -6,7 +6,7 @@
 /*   By: anonymous <anonymous@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 17:38:51 by gecarval          #+#    #+#             */
-/*   Updated: 2024/09/26 12:28:41 by gecarval         ###   ########.fr       */
+/*   Updated: 2024/09/26 12:37:52 by gecarval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	draw_button(int x, int y, int w, int h, t_data *data, int color)
 		draw_line(dx, dy, data, color);
 		h--;
 	}
-	draw_button(x + 1, y - 1, w + 2, h + 2, data, 0xFFFFFF);
 }
 
 void	handle_click(t_data *data)
@@ -79,9 +78,13 @@ int	mlx_anim(t_data *data)
 		render_background(data, 0x000000);
 		visualize_stack(data, &data->stack_a, &data->stack_b);
 		choose_operations(&data->stack_a, &data->stack_b, data, data->anidir);
+//		draw_button(x + 1, y - 1, w + 2, h + 2, data, 0xFFFFFF);
 		draw_button((data->winx / 2) - 90, 250, 133, 25, data, 0x444444);
+		draw_button((data->winx / 2) - 91, 249, 135, 27, data, 0x444444);
 		draw_button((data->winx / 2) - 90, 210, 143, 25, data, 0x444444);
+		draw_button((data->winx / 2) - 91, 209, 145, 27, data, 0x444444);
 		draw_button((data->winx / 2) - 90, 290, 143, 25, data, 0x444444);
+		draw_button((data->winx / 2) - 91, 289, 145, 27, data, 0x444444);
 		mlx_put_image_to_window(data->ini, data->win, data->img->img_ptr, 0, 0);
 		control_mark(data);
 		mlx_string_put(data->ini, data->win, (data->winx / 2) - 80, 227, 120000, "Click Here to Reverse");
