@@ -35,6 +35,9 @@ In the making of the push swap project this tool help in detecting where does th
 > [!Tip]
 > On the repo I have a compiled push swap in Ubuntu 22.04.5 LTS.
 
+> [!Warning]
+> The reverse feature is bugged! do not use it, it will cause ordering issues.
+
 ## Quick Selection Sort
 ![[Quick Selection Sort]](https://github.com/user-attachments/assets/5119e3c5-1b33-407b-816f-a20001373f99)
 
