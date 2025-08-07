@@ -32,98 +32,146 @@ int	mouse_click(int key, int x, int y, t_data *data)
 	return (0);
 }
 
-void	draw_button(int x, int y, int w, int h, t_data *data, int color)
+void mlx_operation_ui(t_data *data, int i)
 {
-	t_delta	dx;
-	t_delta	dy;
-
-	dx = defdel(x, x + w);
-	while (h > 0)
+	mlx_string_put(data->ini, data->win,
+				(data->winx / 2) - 75, 120, 120000, "Operation");
+	mlx_string_put(data->ini, data->win,
+				(data->winx / 2) - 75, 135, 120000, "Current->");
+	mlx_string_put(data->ini, data->win,
+				(data->winx / 2) - 75, 150, 120000, "Next->");
+	mlx_string_put(data->ini, data->win,
+				(data->winx / 2) - 75, 165, 120000, "Next->");
+	if (i > -1 && i < ft_av_size(data->operations))
 	{
-		dy = defdel(y + h, y + h);
-		draw_line(dx, dy, data, color);
-		h--;
+		if (i - 1 > -1)
+		{
+			mlx_string_put(data->ini, data->win,
+				  (data->winx / 2) - 15, 135, 120000, data->operations[i - 1]);
+		}
+		mlx_string_put(data->ini, data->win,
+				 (data->winx / 2) - 15, 150, 120000, data->operations[i]);
+		if (i + 1 < ft_av_size(data->operations))
+		{
+			mlx_string_put(data->ini, data->win,
+				  (data->winx / 2) - 15, 165, 120000, data->operations[i + 1]);
+		}
 	}
 }
 
-void	handle_click(t_data *data)
+void	draw_button(t_button *b, t_data *data, bool draw_out_lines)
 {
-	if (data->mposx > (data->winx / 2) - 91 && data->mposx < ((data->winx / 2) - 91) + 145)
+	unsigned int color;
+	t_delta	dx;
+	t_delta	dy;
+	int h;
+
+	color = b->btt_col;
+	if (b->pressed)
+		color -= 0x111111;
+	h = b->len.y + 1;
+	dx = defdel(b->pos.x, b->pos.x + b->len.x);
+	while (--h > 0)
 	{
-		if (data->mposy > 209 && data->mposy < 209 + 27)
+		dy = defdel(b->pos.y + h, b->pos.y + h);
+		if (b->pressed)
+			draw_line(dx, dy, data, color);
+		else if (!b->pressed)
+			draw_line(dx, dy, data, color);
+	}
+	if (draw_out_lines == false)
+		return ;
+	// Vertical outlines
+	dy = defdel(b->pos.y, b->pos.y);
+	draw_line(dx, dy, data, b->outln_color);
+	dy = defdel(b->pos.y + b->len.y, b->pos.y + b->len.y);
+	draw_line(dx, dy, data, b->outln_color);
+	// Horizontal outlines
+	dy.ini = b->pos.y;
+	dx = defdel(b->pos.x, b->pos.x);
+	draw_line(dx, dy, data, b->outln_color);
+	dx = defdel(b->pos.x + b->len.x, b->pos.x + b->len.x);
+	draw_line(dx, dy, data, b->outln_color);
+}
+
+void	handle_button_click(t_button *b, t_data *data)
+{
+	if (data->mposx > b->pos.x && data->mposx < b->pos.x + b->len.x)
+	{
+		if (data->mposy > b->pos.y && data->mposy < b->pos.y + b->len.y)
 		{
-			data->anidir = -1;
+			if (!b->pressed)
+				b->pressed = true;
+			return ;
 		}
 	}
-	if (data->mposx > (data->winx / 2) - 91 && data->mposx < ((data->winx / 2) - 91) + 135)
-	{
-		if (data->mposy > 249 && data->mposy < 249 + 27)
-		{
-			data->anidir = 1;
-		}
-	}
+	b->pressed = false;
+}
+
+void	draw_button_text(t_button *b, t_data *data)
+{
+	mlx_string_put(data->ini, data->win, b->pos.x + 10, b->pos.y + (b->len.y / 1.5), b->txt_col, b->text);
 }
 
 int	mlx_anim(t_data *data)
 {
+	static const int BLACK = 0;
+	static t_button prevbt = {
+		{(WINX / 2.0f) - 90, 210},
+		{145, 25},
+		"Click Here to Reverse",
+		0xdddddd,
+		0x444444,
+		0x777777,
+		false,
+	};
+	static t_button nextbt = {
+		{(WINX / 2.0f) - 90, 250},
+		{130, 25},
+		"Click Here to Start",
+		0xdddddd,
+		0x444444,
+		0x777777,
+		false,
+	};
 	int	i;
 
-	if (data->animation_start == 1)
+	if (data->animation_start != 1)
+		return (0);
+	render_background(data, BLACK);
+	visualize_stack(data, &data->stack_a, &data->stack_b);
+	i = choose_operations(&data->stack_a, &data->stack_b, data, data->anidir);
+	draw_button(&prevbt, data, true);
+	draw_button(&nextbt, data, true);
+	mlx_put_image_to_window(data->ini, data->win, data->img->img_ptr, 0, 0);
+	control_mark(data);
+	mlx_operation_ui(data, i);
+	draw_button_text(&prevbt, data);
+	draw_button_text(&nextbt, data);
+	if (data->click_hold == 1)
 	{
-		render_background(data, 0x000000);
-		visualize_stack(data, &data->stack_a, &data->stack_b);
-		i = choose_operations(&data->stack_a, &data->stack_b, data, data->anidir);
-		//draw_button(x + 1, y - 1, w + 2, h + 2, data, 0xFFFFFF);
-		draw_button((data->winx / 2) - 90, 250, 133, 25, data, 0x444444);
-		draw_button((data->winx / 2) - 91, 249, 135, 27, data, 0x444444);
-		draw_button((data->winx / 2) - 90, 210, 143, 25, data, 0x444444);
-		draw_button((data->winx / 2) - 91, 209, 145, 27, data, 0x444444);
-		mlx_put_image_to_window(data->ini, data->win, data->img->img_ptr, 0, 0);
-		control_mark(data);
-		mlx_string_put(data->ini, data->win, (data->winx / 2) - 80, 227, 120000, "Click Here to Reverse");
-		mlx_string_put(data->ini, data->win, (data->winx / 2) - 80, 267, 120000, "Click Here to Start");
-		mlx_string_put(data->ini, data->win,
-				(data->winx / 2) - 75, 120, 120000, "Operation");
-		mlx_string_put(data->ini, data->win,
-				(data->winx / 2) - 75, 135, 120000, "Current->");
-		mlx_string_put(data->ini, data->win,
-				(data->winx / 2) - 75, 150, 120000, "Next->");
-		mlx_string_put(data->ini, data->win,
-				(data->winx / 2) - 75, 165, 120000, "Next->");
-		if (i > -1 && i < ft_av_size(data->operations))
-		{
-			if (i - 1 > -1)
-			{
-				mlx_string_put(data->ini, data->win,
-						(data->winx / 2) - 15, 135, 120000, data->operations[i - 1]);
-			}
-			mlx_string_put(data->ini, data->win,
-					(data->winx / 2) - 15, 150, 120000, data->operations[i]);
-			if (i + 1 < ft_av_size(data->operations))
-			{
-				mlx_string_put(data->ini, data->win,
-						(data->winx / 2) - 15, 165, 120000, data->operations[i + 1]);
-			}
-		}
-		if (data->click_hold == 1)
-		{
-			mlx_mouse_get_pos(data->ini, data->win, &data->mposx, &data->mposy);
-			if (data->mposx < 0 || data->mposx > data->winx)
-				data->click_hold = 0;
-			if (data->mposy < 0 || data->mposy > data->winy)
-				data->click_hold = 0;
-			handle_click(data);
-			data->pmposx = data->mposx;
-			data->pmposy = data->mposy;
+		mlx_mouse_get_pos(data->ini, data->win, &data->mposx, &data->mposy);
+		if (data->mposx < 0 || data->mposx > data->winx)
 			data->click_hold = 0;
-		}
-		if (data->steper == 1)
-		{
-			data->steper = 0;
-			data->animation_start = -1;
-		}
-		usleep(data->timing);
+		if (data->mposy < 0 || data->mposy > data->winy)
+			data->click_hold = 0;
+		handle_button_click(&prevbt, data);
+		handle_button_click(&nextbt, data);
+		if (nextbt.pressed)
+			data->anidir = 1;
+		else if (prevbt.pressed)
+			data->anidir = -1;
+		data->pmposx = data->mposx;
+		data->pmposy = data->mposy;
+		data->click_hold = 0;
 	}
+	if (data->steper == 1)
+	{
+		data->steper = 0;
+		data->animation_start = -1;
+	}
+	if (data->timing > 0)
+		usleep(data->timing);
 	return (0);
 }
 
