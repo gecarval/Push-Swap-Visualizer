@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "./includes/renderer.h"
+#include "libft/libft.h"
 
 void	ft_pa(t_list **stack_b, t_list **stack_a)
 {
@@ -342,13 +343,14 @@ int	assign_index(t_data *data, t_list **stack)
 
 void	get_operations(t_data *data)
 {
-	int	i;
-	int	fd;
-	char	buf[100000];
+	int			i;
+	int			fd;
+	static char	buf[BUFFER_SIZE + 1];
 
 
+	ft_bzero(buf, BUFFER_SIZE);
 	fd = open("./result.txt", O_RDONLY);
-	i = read(fd, buf, 100000);
+	i = read(fd, buf, BUFFER_SIZE);
 	buf[i] = '\0';
 	close(fd);
 	data->operations = ft_split(buf, '\n');
