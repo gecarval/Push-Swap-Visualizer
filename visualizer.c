@@ -14,72 +14,71 @@
 
 int	choose_operations(t_list **a, t_list **b, t_data *data, int dir)
 {
-	static int i = 0;
+	const int	operation_size = ft_av_size(data->operations);
+	static int	ldir = 1;
+	static int	i = -1;
 
-	if (data->operations == NULL)
+	if (data->operations == NULL || (i == 0 && data->steper == 1 && dir == -1))
 		return (i);
-	if (dir == -1 && i >= ft_av_size(data->operations))
-		i--;
-	if (dir == 1 && i < 0)
+	else if (dir == -1 && i < 0)
+		return (0);
+	else if (dir == 1 && i >= operation_size)
+		return (operation_size - 1);
+	i += dir;
+	if (dir == -1 && ldir == 1)
 		i++;
-	if (i > -1 && i < ft_av_size(data->operations))
+	else if (dir == 1 && ldir == -1)
+		i--;
+	ldir = dir;
+	if (dir == 1 && i >= 0 && i < operation_size)
 	{
-		if (i == 0 && data->steper == 1 && dir == -1)
-			return (i);
-		if (dir == -1 && i > 0)
-			i += dir;
-		if (dir == 1)
-		{
-			if (ft_strncmp(data->operations[i], "pa", 3) == 0)
-				ft_pa(b, a);
-			if (ft_strncmp(data->operations[i], "pb", 3) == 0)
-				ft_pb(a, b);
-			if (ft_strncmp(data->operations[i], "sa", 3) == 0)
-				ft_sa(a);
-			if (ft_strncmp(data->operations[i], "sb", 3) == 0)
-				ft_sb(b);
-			if (ft_strncmp(data->operations[i], "ss", 3) == 0)
-				ft_ss(a, b);
-			if (ft_strncmp(data->operations[i], "ra", 3) == 0)
-				ft_ra(a);
-			if (ft_strncmp(data->operations[i], "rb", 3) == 0)
-				ft_rb(b);
-			if (ft_strncmp(data->operations[i], "rr", 3) == 0)
-				ft_rr(a, b);
-			if (ft_strncmp(data->operations[i], "rra", 4) == 0)
-				ft_rra(a);
-			if (ft_strncmp(data->operations[i], "rrb", 4) == 0)
-				ft_rrb(b);
-			if (ft_strncmp(data->operations[i], "rrr", 4) == 0)
-				ft_rrr(a, b);
-		}
-		else if (dir == -1)
-		{
-			if (ft_strncmp(data->operations[i], "pa", 3) == 0)
-				ft_pb(a, b);
-			if (ft_strncmp(data->operations[i], "pb", 3) == 0)
-				ft_pa(b, a);
-			if (ft_strncmp(data->operations[i], "sa", 3) == 0)
-				ft_sa(a);
-			if (ft_strncmp(data->operations[i], "sb", 3) == 0)
-				ft_sb(b);
-			if (ft_strncmp(data->operations[i], "ss", 3) == 0)
-				ft_ss(a, b);
-			if (ft_strncmp(data->operations[i], "ra", 3) == 0)
-				ft_rra(a);
-			if (ft_strncmp(data->operations[i], "rb", 3) == 0)
-				ft_rrb(b);
-			if (ft_strncmp(data->operations[i], "rr", 3) == 0)
-				ft_rrr(a, b);
-			if (ft_strncmp(data->operations[i], "rra", 4) == 0)
-				ft_ra(a);
-			if (ft_strncmp(data->operations[i], "rrb", 4) == 0)
-				ft_rb(b);
-			if (ft_strncmp(data->operations[i], "rrr", 4) == 0)
-				ft_rr(a, b);
-		}
-		if (dir == 1 && i < ft_av_size(data->operations))
-			i += dir;
+		if (ft_strncmp(data->operations[i], "pa", 3) == 0)
+			ft_pa(b, a);
+		if (ft_strncmp(data->operations[i], "pb", 3) == 0)
+			ft_pb(a, b);
+		if (ft_strncmp(data->operations[i], "sa", 3) == 0)
+			ft_sa(a);
+		if (ft_strncmp(data->operations[i], "sb", 3) == 0)
+			ft_sb(b);
+		if (ft_strncmp(data->operations[i], "ss", 3) == 0)
+			ft_ss(a, b);
+		if (ft_strncmp(data->operations[i], "ra", 3) == 0)
+			ft_ra(a);
+		if (ft_strncmp(data->operations[i], "rb", 3) == 0)
+			ft_rb(b);
+		if (ft_strncmp(data->operations[i], "rr", 3) == 0)
+			ft_rr(a, b);
+		if (ft_strncmp(data->operations[i], "rra", 4) == 0)
+			ft_rra(a);
+		if (ft_strncmp(data->operations[i], "rrb", 4) == 0)
+			ft_rrb(b);
+		if (ft_strncmp(data->operations[i], "rrr", 4) == 0)
+			ft_rrr(a, b);
+	}
+	else if (dir == -1 && i >= 0 && i < operation_size)
+	{
+		if (ft_strncmp(data->operations[i], "pa", 3) == 0)
+			ft_pb(a, b);
+		if (ft_strncmp(data->operations[i], "pb", 3) == 0)
+			ft_pa(b, a);
+		if (ft_strncmp(data->operations[i], "sa", 3) == 0)
+			ft_sa(a);
+		if (ft_strncmp(data->operations[i], "sb", 3) == 0)
+			ft_sb(b);
+		if (ft_strncmp(data->operations[i], "ss", 3) == 0)
+			ft_ss(a, b);
+		if (ft_strncmp(data->operations[i], "ra", 3) == 0)
+			ft_rra(a);
+		if (ft_strncmp(data->operations[i], "rb", 3) == 0)
+			ft_rrb(b);
+		if (ft_strncmp(data->operations[i], "rr", 3) == 0)
+			ft_rrr(a, b);
+		if (ft_strncmp(data->operations[i], "rra", 4) == 0)
+			ft_ra(a);
+		if (ft_strncmp(data->operations[i], "rrb", 4) == 0)
+			ft_rb(b);
+		if (ft_strncmp(data->operations[i], "rrr", 4) == 0)
+			ft_rr(a, b);
 	}
 	return (i);
 }
