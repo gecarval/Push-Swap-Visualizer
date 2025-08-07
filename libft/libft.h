@@ -18,7 +18,7 @@
 # include <unistd.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
+#  define BUFFER_SIZE 1000000
 # endif
 
 int		ft_isalpha(int c);
@@ -71,8 +71,8 @@ t_list	*ft_lstnew(int content);
 t_list	*ft_lstlast(t_list *lst);
 t_list	*ft_lstmap(t_list *lst, int (*f)(int), void (*del)(int));
 
-void	ft_lstadd_front(t_list **lst, t_list *new);
-void	ft_lstadd_back(t_list **lst, t_list *new);
+void	ft_lstadd_front(t_list **lst, t_list *lnew);
+void	ft_lstadd_back(t_list **lst, t_list *lnew);
 void	ft_lstdelone(t_list *lst, void (*del)(int));
 void	ft_lstclear(t_list **lst, void (*del)(int));
 void	ft_lstiter(t_list *lst, void (*f)(int));
