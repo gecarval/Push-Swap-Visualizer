@@ -76,4 +76,31 @@ void	ft_init_program(t_data *data)
 			&data->img->llen, &data->img->end);
 	if (!data->img->img_px)
 		display_error(data, "img data error\n");
+	data->prevbutton = (t_button){
+		{(WINX / 2.0f) - 90, 210},
+		{145, 25},
+		"Click Here to Reverse",
+		0xdddddd,
+		0x444444,
+		0x777777,
+		false,
+	};
+	data->nextbutton = (t_button){
+		{(WINX / 2.0f) - 90, 250},
+		{130, 25},
+		"Click Here to Start",
+		0xdddddd,
+		0x444444,
+		0x777777,
+		false,
+	};
+	data->pausebutton = (t_button){
+		{(WINX / 2.0f) - 90, 290},
+		{130, 25},
+		"Click Here to Pause",
+		0xdddddd,
+		0x444444,
+		0x777777,
+		false,
+	};
 }

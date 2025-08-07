@@ -102,6 +102,8 @@ void	handle_button_click(t_button *b, t_data *data)
 		{
 			if (!b->pressed)
 				b->pressed = true;
+			else
+				b->pressed = false;
 			return ;
 		}
 	}
@@ -115,52 +117,41 @@ void	draw_button_text(t_button *b, t_data *data)
 
 int	mlx_anim(t_data *data)
 {
-	static const int BLACK = 0;
-	static t_button prevbt = {
-		{(WINX / 2.0f) - 90, 210},
-		{145, 25},
-		"Click Here to Reverse",
-		0xdddddd,
-		0x444444,
-		0x777777,
-		false,
-	};
-	static t_button nextbt = {
-		{(WINX / 2.0f) - 90, 250},
-		{130, 25},
-		"Click Here to Start",
-		0xdddddd,
-		0x444444,
-		0x777777,
-		false,
-	};
-	int	i;
+	static const int	BLACK = 0;
+	t_button			*prevbt = &data->prevbutton;
+	t_button			*nextbt = &data->nextbutton;
+	t_button			*pausebt = &data->pausebutton;
+	int					i = 0;
 
-	if (data->animation_start != 1)
-		return (0);
 	render_background(data, BLACK);
 	visualize_stack(data, &data->stack_a, &data->stack_b);
-	i = choose_operations(&data->stack_a, &data->stack_b, data, data->anidir);
-	draw_button(&prevbt, data, true);
-	draw_button(&nextbt, data, true);
+	if (data->animation_start == 1)
+		i = choose_operations(&data->stack_a, &data->stack_b, data, data->anidir);
+	draw_button(prevbt, data, true);
+	draw_button(nextbt, data, true);
+	draw_button(pausebt, data, true);
 	mlx_put_image_to_window(data->ini, data->win, data->img->img_ptr, 0, 0);
 	control_mark(data);
 	mlx_operation_ui(data, i);
-	draw_button_text(&prevbt, data);
-	draw_button_text(&nextbt, data);
+	draw_button_text(prevbt, data);
+	draw_button_text(nextbt, data);
+	draw_button_text(pausebt, data);
 	if (data->click_hold == 1)
 	{
 		mlx_mouse_get_pos(data->ini, data->win, &data->mposx, &data->mposy);
-		if (data->mposx < 0 || data->mposx > data->winx)
-			data->click_hold = 0;
-		if (data->mposy < 0 || data->mposy > data->winy)
-			data->click_hold = 0;
-		handle_button_click(&prevbt, data);
-		handle_button_click(&nextbt, data);
-		if (nextbt.pressed)
+		handle_button_click(prevbt, data);
+		handle_button_click(nextbt, data);
+		handle_button_click(pausebt, data);
+		if (nextbt->pressed)
+		{
+			data->animation_start = 1;
 			data->anidir = 1;
-		else if (prevbt.pressed)
+		}
+		else if (prevbt->pressed)
+		{
+			data->animation_start = 1;
 			data->anidir = -1;
+		}
 		data->pmposx = data->mposx;
 		data->pmposy = data->mposy;
 		data->click_hold = 0;
@@ -172,6 +163,10 @@ int	mlx_anim(t_data *data)
 	}
 	if (data->timing > 0)
 		usleep(data->timing);
+	if (data->pausebutton.pressed)
+		data->animation_start = -1;
+	else if (!data->pausebutton.pressed)
+		data->animation_start = 1;
 	return (0);
 }
 
@@ -180,22 +175,35 @@ int	mlx_cooked(int key, t_data *data)
 	if (key == ESC)
 		exit_data(data, 0);
 	if (key == ' ')
+	{
 		data->animation_start *= -1;
+		data->pausebutton.pressed = data->animation_start == 1 ? false : true;
+	}
 	if (key == 'v')
+	{
+		data->prevbutton.pressed = false;
+		data->nextbutton.pressed = true;
+		data->animation_start = 1;
 		data->anidir = -1;
+	}
 	if (key == 'n')
+	{
+		data->prevbutton.pressed = true;
+		data->nextbutton.pressed = false;
+		data->animation_start = 1;
 		data->anidir = 1;
+	}
 	if (key == 'a')
 	{
 		data->animation_start = 1;
-		data->steper = 1;
 		data->anidir = -1;
+		data->steper = 1;
 	}
 	if (key == 'd')
 	{
 		data->animation_start = 1;
-		data->steper = 1;
 		data->anidir = 1;
+		data->steper = 1;
 	}
 	if (key == '[')
 		data->timing += 10000;

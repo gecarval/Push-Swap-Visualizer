@@ -100,6 +100,9 @@ typedef struct s_data
 	void		*win;
 	t_img		*img;
 	t_menu		*menu;
+	t_button	prevbutton;
+	t_button	nextbutton;
+	t_button	pausebutton;
 	t_list		*stack_a;
 	t_list		*stack_b;
 	char		**operations;
