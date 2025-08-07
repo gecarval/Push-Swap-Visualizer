@@ -65,10 +65,12 @@ typedef struct s_img
 typedef struct s_button
 {
 	t_vector	pos;
+	t_vector	len;
 	char		*text;
 	int			txt_col;
 	int			btt_col;
 	int			outln_color;
+	bool		pressed;
 }	t_button;
 
 typedef struct s_textbox
