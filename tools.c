@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "./includes/renderer.h"
+#include "libft/libft.h"
+#include "minilibx-linux/mlx.h"
 
 // HOOKS
 int	mouse_released(int key, t_data *data)
@@ -34,8 +36,14 @@ int	mouse_click(int key, int x, int y, t_data *data)
 
 void mlx_operation_ui(t_data *data, int i)
 {
+	char *tmp = NULL;
+	tmp = ft_itoa(data->timing / 1000);
+	mlx_string_put(data->ini, data->win, (WINX / 2.0f) - 75, 185, 0xffffff, "delay:");
+	mlx_string_put(data->ini, data->win, (WINX / 2.0f) - 35, 185 + 1, 0xffffff, tmp);
+	free(tmp);
+	mlx_string_put(data->ini, data->win, (data->winx / 2) - 0, 121, 0xdddddd, data->operation_n);
 	mlx_string_put(data->ini, data->win,
-				(data->winx / 2) - 75, 120, 120000, "Operation");
+				(data->winx / 2) - 75, 120, 120000, "Operations:");
 	mlx_string_put(data->ini, data->win,
 				(data->winx / 2) - 75, 135, 120000, "Current->");
 	mlx_string_put(data->ini, data->win,
@@ -208,7 +216,7 @@ int	mlx_cooked(int key, t_data *data)
 	if (key == '[')
 		data->timing += 10000;
 	if (key == ']')
-		if (data->timing > 9999)
+		if (data->timing >= 10000)
 			data->timing -= 10000;
 	if (key == '1')
 	{

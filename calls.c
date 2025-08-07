@@ -32,6 +32,8 @@ int	exit_data(t_data *data, int fd)
 		free(data->img);
 	if (data != NULL && data->operations != NULL)
 		ft_free_matrix((void **)data->operations);
+	if (data != NULL && data->operation_n != NULL)
+		free(data->operation_n);
 	if (data != NULL && data->stack_a != NULL)
 		free_part(data->stack_a);
 	if (data != NULL && data->stack_b != NULL)

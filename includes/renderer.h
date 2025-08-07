@@ -106,6 +106,7 @@ typedef struct s_data
 	t_list		*stack_a;
 	t_list		*stack_b;
 	char		**operations;
+	char		*operation_n;
 	int			anidir;
 	int			steper;
 	int			space;
