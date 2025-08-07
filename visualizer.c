@@ -83,7 +83,7 @@ int	choose_operations(t_list **a, t_list **b, t_data *data, int dir)
 	return (i);
 }
 
-void	draw_stack(t_list **stack, t_data *data, int dir)
+static void	draw_node(t_list **stack, t_data *data, int dir)
 {
 	int	i;
 	int	j;
@@ -118,13 +118,13 @@ void	visualize_stack(t_data *data, t_list **a, t_list **b)
 	tmp = *a;
 	if (tmp != NULL)
 	{
-		draw_stack(&tmp, data, 0);
+		draw_node(&tmp, data, 0);
 		tmp = tmp->next;
 	}
 	tmp = *b;
 	if (tmp != NULL)
 	{
-		draw_stack(&tmp, data, 1);
+		draw_node(&tmp, data, 1);
 		tmp = tmp->next;
 	}
 }
