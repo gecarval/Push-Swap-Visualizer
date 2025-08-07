@@ -16,19 +16,17 @@ CFLAGS = -g -Wall -Wextra -Werror
 LIBFT = libft.a
 MINILIBX = mlx_Linux.a
 INCS = -I./includes -I./libft -L./libft ./libft/$(LIBFT) -I./minilibx-linux -lmlx_Linux -L./minilibx-linux -lmlx -L/usr/include/../lib -lXext -lX11 -lm
+INCLUDES = ./includes/renderer.h ./libft/libft.h
 SRCS = ./bresenham/bresenham.c ./push_swap.c ./visualizer.c ./calls.c ./reads.c ./tools.c ./main.c
 OBJS = $(SRCS:.c=.o)
 RM = rm -drf
 
 all: $(MINILIBX) $(LIBFT) $(NAME)
 
-run:
-	./$(NAME)
-
 $(NAME): $(OBJS) 
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(INCS)
 
-%.o: %.c
+%.o: %.c $(INCLUDES)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(LIBFT):
@@ -47,3 +45,8 @@ fclean: clean
 	make fclean -C libft
 
 re: fclean all
+
+run:
+	./$(NAME)
+
+.PHONY: all run clean fclean re
