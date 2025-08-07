@@ -35,9 +35,6 @@ In the making of the push swap project this tool help in detecting where does th
 > [!Tip]
 > On the repo I have a compiled push swap in Ubuntu 22.04.5 LTS.
 
-> [!Warning]
-> The reverse feature is bugged! do not use it, it will cause ordering issues.
-
 ## Quick Selection Sort
 ![[Quick Selection Sort]](https://github.com/user-attachments/assets/5119e3c5-1b33-407b-816f-a20001373f99)
 
@@ -63,5 +60,5 @@ make
 ```
 Execute the push_swap_visualizer in his directory after doing make on your project:
 ``` sh
-ARG=($(shuf -i 1-100)) ; ../push_swap $ARG > ./result.txt ; ./push_swap_visualizer $ARG
+ARG=($(shuf -i 1-100)) && ../push_swap $ARG > ./result.txt && ./push_swap_visualizer $ARG
 ```
