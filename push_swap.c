@@ -343,13 +343,22 @@ int	assign_index(t_data *data, t_list **stack)
 
 void	get_operations(t_data *data)
 {
-	int			i;
-	int			fd;
+	int			i = 0;
+	int			fd = -1;
 	static char	buf[BUFFER_SIZE + 1];
 
 
 	ft_bzero(buf, BUFFER_SIZE);
-	fd = open("./result.txt", O_RDONLY);
+	if (data->ac == 3 && data->av[2][0])
+		fd = open(data->av[2], O_RDONLY);
+	if (fd == -1)
+	{
+		if (data->ac == 3)
+			data->ac = 2;
+		fd = open("./result.txt", O_RDONLY);
+	}
+	if (fd == -1)
+		display_error(data, "fatal error: cannot open files!\n");
 	i = read(fd, buf, BUFFER_SIZE);
 	buf[i] = '\0';
 	close(fd);
@@ -362,12 +371,14 @@ int	start_stack(int ac, char **av, t_data *data)
 
 	data->stack_a = NULL;
 	data->stack_b = NULL;
-	if (ac == 1 || (ac == 2 && !av[1][0]))
+	get_operations(data);
+	if (data->ac == 1 || (data->ac >= 2 && !av[1][0]))
 		return (1);
-	else if (ac == 2)
+	if (data->ac == 2)
 		av_int = ft_split(av[1], ' ');
 	else
 		av_int = av + 1;
+	data->ac = ac;
 	ft_init_stack(data, av, av_int);
 	if (ft_check_repeat(&data->stack_a))
 	{
@@ -379,7 +390,6 @@ int	start_stack(int ac, char **av, t_data *data)
 		ft_free_args(av_int);
 	assign_index(data, &data->stack_a);
 	assign_color(data, &data->stack_a);
-	get_operations(data);
 	data->space = data->winy / (data->max_index + 1);
 	return (0);
 }
