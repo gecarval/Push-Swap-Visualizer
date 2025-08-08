@@ -128,36 +128,33 @@ void	draw_button_text(t_button *b, t_data *data)
 int	mlx_anim(t_data *data)
 {
 	static const int	BLACK = 0;
-	t_button			*prevbt = &data->prevbutton;
-	t_button			*nextbt = &data->nextbutton;
-	t_button			*pausebt = &data->pausebutton;
 	int					i = 0;
 
 	render_background(data, BLACK);
 	visualize_stack(data, &data->stack_a, &data->stack_b);
 	if (data->animation_start == 1)
 		i = choose_operations(&data->stack_a, &data->stack_b, data, data->anidir);
-	draw_button(prevbt, data, true);
-	draw_button(nextbt, data, true);
-	draw_button(pausebt, data, true);
+	draw_button(&data->prevbutton, data, true);
+	draw_button(&data->nextbutton, data, true);
+	draw_button(&data->pausebutton, data, true);
 	mlx_put_image_to_window(data->ini, data->win, data->img->img_ptr, 0, 0);
 	control_mark(data);
 	mlx_operation_ui(data, i);
-	draw_button_text(prevbt, data);
-	draw_button_text(nextbt, data);
-	draw_button_text(pausebt, data);
+	draw_button_text(&data->prevbutton, data);
+	draw_button_text(&data->nextbutton, data);
+	draw_button_text(&data->pausebutton, data);
 	if (data->click_hold == 1)
 	{
 		mlx_mouse_get_pos(data->ini, data->win, &data->mposx, &data->mposy);
-		handle_button_click(prevbt, data);
-		handle_button_click(nextbt, data);
-		handle_button_click(pausebt, data);
-		if (nextbt->pressed)
+		handle_button_click(&data->prevbutton, data);
+		handle_button_click(&data->nextbutton, data);
+		handle_button_click(&data->pausebutton, data);
+		if (data->nextbutton.pressed)
 		{
 			data->animation_start = 1;
 			data->anidir = 1;
 		}
-		else if (prevbt->pressed)
+		else if (data->prevbutton.pressed)
 		{
 			data->animation_start = 1;
 			data->anidir = -1;
@@ -170,6 +167,7 @@ int	mlx_anim(t_data *data)
 	{
 		data->steper = 0;
 		data->animation_start = -1;
+		data->pausebutton.pressed = true;
 	}
 	if (data->timing > 0)
 		usleep(data->timing);
