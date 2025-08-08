@@ -16,7 +16,7 @@ int	main(int ac, char **av)
 {
 	t_data	*data;
 
-	data = (t_data *)malloc(sizeof(t_data));
+	data = (t_data *)ft_calloc(1, sizeof(t_data));
 	if (!data)
 		display_error(data, "malloc error\n");
 	data->winx = WINX;

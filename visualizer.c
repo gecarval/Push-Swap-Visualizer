@@ -91,10 +91,8 @@ static void	draw_node(t_list **stack, t_data *data, int dir)
 	t_delta	dy;
 	t_list	*tmp;
 
-	if (!(*stack))
-		return ;
-	tmp = *stack;
 	j = 0;
+	tmp = *stack;
 	while (tmp != NULL)
 	{
 		dx = defdel(0, (map((tmp->index + 1), 0, data->max_index, 0, data->winx / 2.5)));

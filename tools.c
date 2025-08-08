@@ -36,6 +36,8 @@ int	mouse_click(int key, int x, int y, t_data *data)
 
 void mlx_operation_ui(t_data *data, int i)
 {
+	if (data->operations == NULL)
+		return ;
 	char *tmp = NULL;
 	tmp = ft_itoa(data->timing / 1000);
 	mlx_string_put(data->ini, data->win, (WINX / 2.0f) - 75, 185, 0xffffff, "delay:");

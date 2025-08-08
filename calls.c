@@ -66,8 +66,6 @@ void	ft_init_program(t_data *data)
 	data->win = mlx_new_window(data->ini, data->winx, data->winy, "Push Swap Visualizer");
 	if (!data->win)
 		display_error(data, "window error\n");
-	data->stack_a = NULL;
-	data->stack_b = NULL;
 	data->img = (t_img *)malloc(sizeof(t_img));
 	if (!data->img)
 		display_error(data, "img malloc error\n");

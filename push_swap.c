@@ -249,7 +249,7 @@ void	ft_init_stack(t_data *data, char **av, char **av_int)
 	i = ft_av_size(av_int) - 1;
 	while (i >= 0)
 	{
-		if (!(data->stack_a))
+		if (data->stack_a == NULL)
 			data->stack_a = ft_lstnew(ft_atoi_stack(av_int[i], data, av, av_int));
 		else
 			ft_lstadd_front(&data->stack_a, ft_lstnew(ft_atoi_stack(av_int[i], data, av, av_int)));
