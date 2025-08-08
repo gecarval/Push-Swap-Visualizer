@@ -14,9 +14,18 @@
 
 int	choose_operations(t_list **a, t_list **b, t_data *data, int dir)
 {
-	const int	operation_size = ft_av_size(data->operations);
 	static int	ldir = 1;
 	static int	i = -1;
+	if (data->resetbutton.pressed)
+	{
+		data->resetbutton.pressed = false;
+		ldir = 1;
+		i = -1;
+		return (0);
+	}
+	if (data->animation_start != 1 && data->steper == 0)
+		return (i);
+	const int	operation_size = ft_av_size(data->operations);
 
 	if (data->operations == NULL || (i == 0 && data->steper == 1 && dir == -1))
 		return (i);

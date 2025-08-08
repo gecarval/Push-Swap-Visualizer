@@ -96,6 +96,8 @@ typedef struct s_menu
 
 typedef struct s_data
 {
+	int			ac;
+	char		**av;
 	void		*ini;
 	void		*win;
 	t_img		*img;
@@ -103,6 +105,7 @@ typedef struct s_data
 	t_button	prevbutton;
 	t_button	nextbutton;
 	t_button	pausebutton;
+	t_button	resetbutton;
 	t_list		*stack_a;
 	t_list		*stack_b;
 	char		**operations;

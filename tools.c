@@ -132,23 +132,25 @@ int	mlx_anim(t_data *data)
 
 	render_background(data, BLACK);
 	visualize_stack(data, &data->stack_a, &data->stack_b);
-	if (data->animation_start == 1)
-		i = choose_operations(&data->stack_a, &data->stack_b, data, data->anidir);
+	i = choose_operations(&data->stack_a, &data->stack_b, data, data->anidir);
 	draw_button(&data->prevbutton, data, true);
 	draw_button(&data->nextbutton, data, true);
 	draw_button(&data->pausebutton, data, true);
+	draw_button(&data->resetbutton, data, true);
 	mlx_put_image_to_window(data->ini, data->win, data->img->img_ptr, 0, 0);
 	control_mark(data);
 	mlx_operation_ui(data, i);
 	draw_button_text(&data->prevbutton, data);
 	draw_button_text(&data->nextbutton, data);
 	draw_button_text(&data->pausebutton, data);
+	draw_button_text(&data->resetbutton, data);
 	if (data->click_hold == 1)
 	{
 		mlx_mouse_get_pos(data->ini, data->win, &data->mposx, &data->mposy);
 		handle_button_click(&data->prevbutton, data);
 		handle_button_click(&data->nextbutton, data);
 		handle_button_click(&data->pausebutton, data);
+		handle_button_click(&data->resetbutton, data);
 		if (data->nextbutton.pressed)
 		{
 			data->animation_start = 1;
@@ -175,6 +177,19 @@ int	mlx_anim(t_data *data)
 		data->animation_start = -1;
 	else if (!data->pausebutton.pressed)
 		data->animation_start = 1;
+	if (data->resetbutton.pressed)
+	{
+		ft_free_stacks(&data->stack_a);
+		ft_free_stacks(&data->stack_b);
+		ft_free_args(data->operations);
+		start_stack(data->ac, data->av, data);
+		data->anidir = 1;
+		data->animation_start = -1;
+		data->prevbutton.pressed = false;
+		data->nextbutton.pressed = false;
+		data->pausebutton.pressed = true;
+		data->resetbutton.pressed = true;
+	}
 	return (0);
 }
 

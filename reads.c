@@ -14,6 +14,8 @@
 
 void	create_visualizer(t_data *data, int ac, char **av)
 {
+	data->ac = ac;
+	data->av = av;
 	if (start_stack(ac, av, data) == 1)
 		display_error(data, "no inputs\n");
 	data->operation_n = ft_itoa(ft_av_size(data->operations));

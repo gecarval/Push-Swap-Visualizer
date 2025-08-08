@@ -103,4 +103,13 @@ void	ft_init_program(t_data *data)
 		0x777777,
 		false,
 	};
+	data->resetbutton = (t_button){
+		{(WINX / 2.0f) - 90, 330},
+		{130, 25},
+		"Click Here to Reset",
+		0xffaaaa,
+		0x444444,
+		0x777777,
+		false,
+	};
 }
