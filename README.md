@@ -51,7 +51,7 @@ In the making of the push swap project this tool helps in detecting where does t
 > This is the merge sort algorithm, until now I saw that this was the first implementation of it in all 42 campuses, it is more efficient above 150 numbers, and the current process is doing it with 151, but with 100 numbers it does around 900 operations.
 
 > [!Tip]
-> The great thing about this algorithm is that it delivers the same amount of operations for the same amount of numbers independent of the initial randomness of the stack A.
+> The great thing about this algorithm is that it delivers the same amount of operations for the same amount of numbers, independent of the initial randomness of stack A.
 ``` sh
 ./push_swap_visualizer "$(cat ./algos/input_merge.txt)" "./algos/result_merge.txt"
 ```
@@ -71,23 +71,29 @@ Execute the Push Swap Visualizer in his directory after doing make on your proje
 
 First create a sequence of number in a file:
 ``` sh
-ARG=($(shuf -i 1-100)) && echo "$ARG" > input.txt
+ARG=($(seq -50 50 | shuf)) && echo "${ARG[*]}" > input.txt
 ```
 
-Then we read the file with the number sequence:
-``` sh
-../push_swap "$(cat input.txt)" > ./result.txt && ./push_swap_visualizer "$(cat input.txt)"
-```
-
-Other use cases are:
+Then we read the file with the number sequence and make your push_swap process the number sequence:
 ```sh
-./push_swap_visualizer "$(cat input)" "result"
+../push_swap "$(cat input.txt)" > ./result.txt
 ```
+
+Then we read the file with the number sequence and the visualizer reads the **result.txt** file by default:
+``` sh
+./push_swap_visualizer "$(cat input.txt)"
 ```
+
+The most used command for this program is one that does all the above:
+``` sh
+ARG=($(seq -50 50 | shuf)) && echo "${ARG[*]}" > input.txt && ../push_swap "$(cat input.txt)" > ./result.txt && ./push_swap_visualizer "$(cat input.txt)"
 ```
-Or which the visualizer reads a file with the name **result.txt**:
+
+Other use cases are reading the input then a result file that you manually do the operations:
+```sh
+./push_swap_visualizer "$(cat path_to_input)" "path_to_result"
+```
+Or the default case which the visualizer reads a file with the name **result.txt**:
 ```sh
 ./push_swap_visualizer 1 4 3 2 5
-```
-```
 ```
