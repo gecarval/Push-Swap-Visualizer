@@ -349,14 +349,14 @@ void	get_operations(t_data *data)
 
 
 	ft_bzero(buf, BUFFER_SIZE);
-	if (data->ac == 3 && data->av[2][0])
-		fd = open(data->av[2], O_RDONLY);
-	if (fd == -1)
+	if (data->ac >= 3 && data->av[2][0])
 	{
-		if (data->ac == 3)
+		fd = open(data->av[2], O_RDONLY);
+		if (fd != -1 && data->ac == 3)
 			data->ac = 2;
-		fd = open("./result.txt", O_RDONLY);
 	}
+	if (fd == -1)
+		fd = open("./result.txt", O_RDONLY);
 	if (fd == -1)
 		display_error(data, "fatal error: cannot open files!\n");
 	i = read(fd, buf, BUFFER_SIZE);
