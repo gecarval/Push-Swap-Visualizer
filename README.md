@@ -1,99 +1,121 @@
-# Push Swap
-<p align="center">
-	<img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/gecarval/Falling-Sand?color=lightblue" />
-	<img alt="Code language count" src="https://img.shields.io/github/languages/count/gecarval/Falling-Sand?color=yellow" />
-	<img alt="GitHub top language" src="https://img.shields.io/github/languages/top/gecarval/Falling-Sand?color=blue" />
-	<img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/gecarval/Falling-Sand?color=green" />
-</p>
-Push Swap is a 42 school project that gives you the challenge of creating a sorting algorithm for a stack with a specific set of defined operations or instructions. The objective is to create this algorithm where it organizes the stack in the crescent order (top to bottom) with the least amount of instructions, you have two stacks, A and B, where you use the B stack as an auxiliary stack to order the numbers received on the stack A, in the end you will have the ordered numbers inside the stack A with an empty B.
-
-where the instructions are:
-- `sa` : swap a - swap the first 2 elements at the top of stack a. Do nothing if there is only one or no elements).
-- `sb` : swap b - swap the first 2 elements at the top of stack b. Do nothing if there is only one or no elements).
-- `ss` : `sa` and `sb` at the same time.
-- `pa` : push a - take the first element at the top of b and put it at the top of a. Do
-nothing if b is empty.
-- `pb` : push b - take the first element at the top of a and put it at the top of b. Do
-nothing if a is empty.
-- `ra` : rotate a - shift up all elements of stack a by 1. The first element becomes
-the last one.
-- `rb` : rotate b - shift up all elements of stack b by 1. The first element becomes the last one.
-- `rr` : `ra` and `rb` at the same time.
-- `rra` : reverse rotate a - shift down all elements of stack a by 1. The last element becomes the first one.
-- `rrb` : reverse rotate b - shift down all elements of stack b by 1. The last element becomes the first one.
-- `rrr` : `rra` and `rrb` at the same time.
+<div align="center">
 
 # Push Swap Visualizer
-This is a project written in C using the MiniLibX as the API which shows the behavior of the operations of your 42 Push Swap project.
-In the making of the push swap project this tool helps in detecting where does the program bug or even what the finishing result delivers, for example:
 
-![Standard Screen](https://github.com/user-attachments/assets/5251028c-11f7-44cc-acd4-01acafe129a6)
+### Watch your push_swap sort, then rewind it and find the move that went wrong.
 
-> [!Note]
-> On the left we have the Stack A and on the right we will have stack B.
+![Visualizer](https://github.com/user-attachments/assets/5251028c-11f7-44cc-acd4-01acafe129a6)
 
-> [!Tip]
-> On the repo I have a Two inputs and result from the algorithm that I will explain, if you want to see their execution.
+<p>
+<img alt="C" src="https://img.shields.io/badge/C-A8B9CC?logo=c&logoColor=black" />
+<img alt="MiniLibX" src="https://img.shields.io/badge/MiniLibX-X11-555" />
+<img alt="License" src="https://img.shields.io/github/license/gecarval/Push-Swap-Visualizer?color=green" />
+<img alt="Code size" src="https://img.shields.io/github/languages/code-size/gecarval/Push-Swap-Visualizer?color=lightblue" />
+<img alt="Last commit" src="https://img.shields.io/github/last-commit/gecarval/Push-Swap-Visualizer?color=green" />
+</p>
 
-## Quick Selection Sort
-![[Quick Selection Sort]](https://github.com/user-attachments/assets/5119e3c5-1b33-407b-816f-a20001373f99)
+[Quick start](#quick-start) · [Controls](#controls) · [Examples](#example-algorithms) · [push_swap in 30 seconds](#push_swap-in-30-seconds)
 
-> [!Note]
-> This is the quick sort algorithm joined with selection sort, this is a case were the algorithm is ordering 100 numbers, created with [gkomba](https://github.com/gkomba), we call it **Quick Selection Sort**, it has around 750 operations for 100 numbers and about 850 for the worst case.
-``` sh
-./push_swap_visualizer "$(cat ./algos/input_quickselection.txt)" "./algos/result_quickselection.txt"
-```
+</div>
 
-## Merge Sort
-![Merge Sort](https://github.com/user-attachments/assets/18fc3b5c-c76e-4515-bc02-8ba9f0cdc52e)
+---
 
-> [!Note]
-> This is the merge sort algorithm, until now I saw that this was the first implementation of it in all 42 campuses, it is more efficient above 150 numbers, and the current process is doing it with 151, but with 100 numbers it does around 900 operations.
+A debugging tool for the 42 **push_swap** project. Give it the starting numbers and the list of operations your program printed, and it plays them back as two animated stacks: **A** on the left, **B** on the right, each number a bar coloured by its value. You can play, pause, **step one operation at a time, and go backwards**, while the window shows the operation count, the current operation and the next two.
 
-> [!Tip]
-> The great thing about this algorithm is that it delivers the same amount of operations for the same amount of numbers, independent of the initial randomness of stack A.
-``` sh
-./push_swap_visualizer "$(cat ./algos/input_merge.txt)" "./algos/result_merge.txt"
-```
+## Quick start
 
-# Installation
-The project uses the [MiniLibX](https://harm-smits.github.io/42docs/libs/minilibx) which uses the X11 Window system in the Linux System, after the instalation of all dependencies you should do as required:
-``` sh
-git clone https://github.com/gecarval/Push-Swap-Visualizer
-```
-``` sh
+You need a C compiler, `make`, and the X11 development headers (`libx11` and `libxext`; on Debian/Ubuntu, `libx11-dev libxext-dev`). MiniLibX and libft are bundled.
+
+```bash
+git clone https://github.com/gecarval/Push-Swap-Visualizer.git
 cd Push-Swap-Visualizer
-```
-``` sh
 make
 ```
-Execute the Push Swap Visualizer in his directory after doing make on your project:
 
-First create a sequence of number in a file:
-``` sh
-ARG=($(seq -50 50 | shuf)) && echo "${ARG[*]}" > input.txt
-```
+Clone it inside your push_swap project folder, so that `../push_swap` is your program. Then shuffle some numbers, run your program on them, and open the result:
 
-Then we read the file with the number sequence and make your push_swap process the number sequence:
-```sh
-../push_swap "$(cat input.txt)" > ./result.txt
+```bash
+ARG=$(seq -50 50 | shuf | tr '\n' ' ')
+echo "$ARG" > input.txt
+../push_swap "$ARG" > result.txt
+./push_swap_visualizer "$ARG"
 ```
 
-Then we read the file with the number sequence and the visualizer reads the **result.txt** file by default:
-``` sh
-./push_swap_visualizer "$(cat input.txt)"
+### Ways to run it
+
+| Command | Reads |
+|---|---|
+| `./push_swap_visualizer "3 1 2"` | numbers from one string, operations from `./result.txt` |
+| `./push_swap_visualizer 3 1 2` | numbers as separate arguments, operations from `./result.txt` |
+| `./push_swap_visualizer "$(cat input.txt)" path/to/ops.txt` | numbers from a string, operations from the given file |
+
+The operations file has one operation per line, exactly as push_swap prints them. Duplicate numbers are rejected.
+
+## Controls
+
+| Key | Action | Key | Action |
+|---|---|---|---|
+| `Space` | play / pause | `[` / `]` | slower / faster |
+| `N` | play forward | `V` | play **backward** |
+| `D` | one step forward | `A` | one step **back** |
+| `1` | clear the screen | `Esc` | quit |
+
+The fastest way to find a bug: play until the stacks look wrong, pause, then press `A` until you reach the operation that broke them. The panel in the middle shows which one it is.
+
+## Example algorithms
+
+The `algos/` folder has two real runs you can open right away.
+
+### Quick Selection Sort: 100 numbers, 727 operations
+
+![Quick Selection Sort](https://github.com/user-attachments/assets/5119e3c5-1b33-407b-816f-a20001373f99)
+
+Quicksort combined with selection sort, written with [gkomba](https://github.com/gkomba). It needs around 750 operations for 100 numbers, about 850 in the worst case. It uses every kind of operation: `pa`/`pb` 153 each, `ra` 151, `rb` 109, `rra` 64, `rrb` 57, `sa`/`sb` 20 each.
+
+```bash
+./push_swap_visualizer "$(cat algos/input_quickselection.txt)" algos/result_quickselection.txt
 ```
 
-The most used command for this program is one that does all the above:
-``` sh
-ARG=($(seq -50 50 | shuf)) && echo "${ARG[*]}" > input.txt && ../push_swap "$(cat input.txt)" > ./result.txt && ./push_swap_visualizer "$(cat input.txt)"
+### Merge Sort: 500 numbers, 6 265 operations
+
+![Merge Sort](https://github.com/user-attachments/assets/18fc3b5c-c76e-4515-bc02-8ba9f0cdc52e)
+
+A merge sort on two stacks, possibly the first one written at any 42 campus. It pays off above about 150 numbers, and it always needs the same number of operations for a given count, whatever the starting order. It only pushes and rotates: `pa`/`pb` 1 132 each, `ra` 2 214, `rb` 1 787.
+
+```bash
+./push_swap_visualizer "$(cat algos/input_merge.txt)" algos/result_merge.txt
 ```
 
-Other use cases are reading the input then a result file that you manually do the operations:
-```sh
-./push_swap_visualizer "$(cat path_to_input)" "path_to_result"
+## push_swap in 30 seconds
+
+You get a stack **A** of distinct integers and an empty stack **B**. Sort A in ascending order (smallest on top) with as few of these operations as possible:
+
+| Operation | Effect |
+|---|---|
+| `sa` / `sb` / `ss` | swap the top two of A / of B / of both |
+| `pa` / `pb` | move the top of B onto A / the top of A onto B |
+| `ra` / `rb` / `rr` | rotate A / B / both up: the top goes to the bottom |
+| `rra` / `rrb` / `rrr` | rotate A / B / both down: the bottom goes to the top |
+
+At the end A must be sorted and B empty. The fewer operations, the better the grade.
+
+## Inside
+
 ```
-Or the default case which the visualizer reads a file with the name **result.txt**:
-```sh
-./push_swap_visualizer 1 4 3 2 5
+main.c, calls.c, reads.c   window, buttons, argument parsing
+push_swap.c                stacks, the 11 operations (forward and reverse), colours
+visualizer.c               drawing the two stacks
+tools.c                    input, animation loop, info panel
+bresenham/                 line drawing
+algos/                     example inputs and operation lists
 ```
+
+Going backwards works because every operation has an inverse (`sa` undoes itself, `pa` undoes `pb`, `ra` undoes `rra`, and so on), so the visualizer never has to store old states.
+
+---
+
+<div align="center">
+
+Released under the [BSD 2-Clause License](./LICENSE) · Made by [Gerson Carvalho](https://github.com/gecarval) at 42
+
+</div>
